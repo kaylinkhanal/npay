@@ -171,24 +171,24 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 
 # PANELS
-- [x] Admin-	Admin panel
-- [x] User- user panel 
+- [ ] Admin-	Admin panel
+- [ ] User- user panel 
 
 # Features phase-1
 
-- [x] 1. Authentication (LOGIN REGISTER) (password hashing, JWT, db save details)
-- [x] 2. KYC (image upload)
-- [x] 3. Admin approve KYC (wallet features unlock) (multi user login) (sidebar ->0. dashboard 1.  kyc validate (send email) 2. add institution )
+- [ ] 1. Authentication (LOGIN REGISTER) (password hashing, JWT, db save details)
+- [ ] 2. KYC (image upload)
+- [ ] 3. Admin approve KYC (wallet features unlock) (multi user login) (sidebar ->0. dashboard 1.  kyc validate (send email) 2. add institution )
 
-- [x] 1. 100 balance  
-- [x] 2. 4 sections: (multiple layout)
+- [ ] 1. 100 balance  
+- [ ] 2. 4 sections: (multiple layout)
     2.1 Dashboard (graph and reward point)
         -  bar graph to display daily expenditure
         -  expense tracker 
     2.2 Transactions (limit) - usera-userb   usera-institution
     2.3 Statement/History (pdf generate)
-- [x] 3. real time cash update (web socket)
-- [x] 4. map to display transaction location (google map)
+- [ ] 3. real time cash update (web socket)
+- [ ] 4. map to display transaction location (google map)
 
 
 
@@ -204,15 +204,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 
 <!-- ROADMAP -->
-## Roadmap
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
 
 See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
