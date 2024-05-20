@@ -68,6 +68,7 @@ export default function NavBar() {
           <Button as={Link} className="bg-green-300" href="#" variant="flat">
             Sign Up
           </Button>
+
         </NavbarItem>
       </NavbarContent>
 
