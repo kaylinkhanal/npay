@@ -1,22 +1,17 @@
 'use client'
 import { Button } from '@nextui-org/react'
 import React, {useState} from 'react'
+import { useSelector } from 'react-redux'
 
-const TrafficForm =()=>{
+const MainTrafficComponent =()=>{
+    const value = useSelector(state=> state.counter.value)
+
     return (
         <div>
-         
-            <Button>Pay</Button>
+          {value}
+            <Button >Pay</Button>
         </div>
     )
-}
-
-const MainTrafficComponent = () => {
-  return (
-    <div>
-        <TrafficForm />
-    </div>
-  )
 }
 
 export default MainTrafficComponent
