@@ -1,22 +1,26 @@
 'use client'
-import { changeHeight } from '@/redux/reducerSlices/boxSlice'
+import { changeHeight, changeShape,changeWidth,changeBackgroundColor } from '@/redux/reducerSlices/boxSlice'
 import { Button, Input } from '@nextui-org/react'
 import React from 'react'
 
 import { useSelector, useDispatch } from 'react-redux'
 
 const Box = () => {
-    const {height, width, backgroundColor} = useSelector(state=>state.box)
+    const {height, width, backgroundColor, borderRadius } = 
+    useSelector(state=>state.box)
     const dispatch = useDispatch()
-
+  const generateArea = () => {
+    return Math.PI * (width/2) ** 2
+  }
   return (
     <div>
-      <div style={{backgroundColor: backgroundColor, height: height, width:width }}>
+      <div style={{backgroundColor: backgroundColor, height: height, width:width, borderRadius:borderRadius }}>
       </div>
-    <Button>+Width</Button>
+      {generateArea()}
+    <Button onClick={()=>dispatch(changeWidth()) }>+Width</Button>
     <Button onClick={()=> dispatch(changeHeight())}>+Height</Button>
-    <Button>Change to circle</Button>
-    <Input placeholder='Enter color'/>
+    <Button  onClick={()=> dispatch(changeShape())}>Change shape</Button>
+    <Input onChange={(e)=>dispatch(changeBackgroundColor(e.target.value)) } placeholder='Enter color'/>
     </div>
   )
 }
