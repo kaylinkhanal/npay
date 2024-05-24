@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = { 
     backgroundColor: 'red', 
+    right: 0,
     width: 50,
     height: 50,
     borderRadius: '0%'
@@ -37,8 +38,11 @@ const boxSlice = createSlice({
     changeBackgroundColor(state,actions) {
       state.backgroundColor = actions.payload
     },
+    shiftPosition(state,actions) {
+      state.right = actions.payload
+    },
   },
 })
 
-export const { changeHeight, changeShape,changeWidth,changeBackgroundColor } = boxSlice.actions
+export const { changeHeight, changeShape,shiftPosition, changeWidth,changeBackgroundColor } = boxSlice.actions
 export default boxSlice.reducer
