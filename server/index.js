@@ -2,8 +2,8 @@ const express = require('express')
 const app = express()
 require('dotenv').config()
 
-const port = 5000
-console.log(process.env)
+const port = process.env.port
+
 
 const userList= [
   {id:1, name:'kaylin',addr: 'ktm'},
