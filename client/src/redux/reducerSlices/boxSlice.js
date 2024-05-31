@@ -5,6 +5,7 @@ const initialState = {
     right: 0,
     width: 50,
     height: 50,
+    top: 0,
     borderRadius: '0%'
 }
 
@@ -39,7 +40,14 @@ const boxSlice = createSlice({
       state.backgroundColor = actions.payload
     },
     shiftPosition(state,actions) {
-      state.right = actions.payload
+     const {value, type} = actions.payload
+     if(type === 'horizontal'){
+      state.top=0
+      state.right = value
+     }else{
+      state.right =0
+      state.top = value
+     }
     },
   },
 })
