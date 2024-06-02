@@ -3,25 +3,27 @@ const dbConnect = require('./src/db/connection')
 dbConnect()
 const app = express()
 require('dotenv').config()
+const mongoose = require('mongoose')
+const { Schema } = mongoose;
 
+const userSchema = new Schema({
+  name: String, // String is shorthand for {type: String}
+  addr: String,
+});
+
+
+const User = mongoose.model('User', userSchema);
 const port = process.env.PORT
 
 
-const userList= [
-  {id:1, name:'kaylin',addr: 'ktm'},
-  {id:2, name:'ram',addr: 'ktm'},
-  {id:4, name:'gopal',addr: 'pkr'},
-  {id:5, name:'jeken',addr: 'bhk'},
-]
-app.get('/users', (req, res) => {
-  
-const particularUser = userList.find((item)=>{
-    if(item.name.includes(req.query.search)) {
-        return item
-    }
+app.post('/users', (req, res) => {
+  User.create({name:"kaylin", addr:"ktm"})
+  res.send('ok')
 })
 
-res.send(particularUser)
+app.get('/users', async (req, res) => {
+  const data = await User.find()
+  res.send(data)
 })
 
 app.listen(port, () => {
