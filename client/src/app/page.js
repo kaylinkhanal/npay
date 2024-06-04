@@ -2,6 +2,7 @@
 import React from "react";
 import {Tabs, Tab, Input, Link, Button, Card, CardBody, CardHeader} from "@nextui-org/react";
 import { useFormik } from 'formik';
+import Image from "next/image";
 
 export default function Main() {
   const [selected, setSelected] = React.useState("login");
@@ -19,6 +20,7 @@ export default function Main() {
   return (
     <div className="flex flex-col w-full ">
       <Card className=" flex self-center max-w-full w-[340px] ">
+    <Image src= "/logo.png" width={100} height={100} alt="logo"/>
         <CardBody className="overflow-hidden">
           <Tabs
             fullWidth

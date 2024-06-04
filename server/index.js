@@ -1,4 +1,7 @@
 const express = require('express')
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 const dbConnect = require('./src/db/connection')
 dbConnect()
 const app = express()
@@ -28,6 +31,8 @@ const User = mongoose.model('User', userSchema);
 const port = process.env.PORT || 8000
 
 app.post('/register', async (req, res) => {
+  const hashPassword = await bcrypt.hash(req.body.password, saltRounds)
+  req.body.password = hashPassword
   const phoneExist  = await User.exists({phoneNumber: req.body.phoneNumber})
   const emailExist  = await User.exists({email: req.body.email})
 
