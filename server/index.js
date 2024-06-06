@@ -1,7 +1,7 @@
 const express = require('express')
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-
+const jwt = require('jsonwebtoken');
 const dbConnect = require('./src/db/connection')
 dbConnect()
 const app = express()
@@ -31,7 +31,7 @@ const User = mongoose.model('User', userSchema);
 const port = process.env.PORT || 8000
 
 app.post('/register', async (req, res) => {
-  const hashPassword = await bcrypt.hash(req.body.password, saltRounds)
+  const hashPassword = await bcrypt.hash(req.body?.password, saltRounds)
   req.body.password = hashPassword
   const phoneExist  = await User.exists({phoneNumber: req.body.phoneNumber})
   const emailExist  = await User.exists({email: req.body.email})
@@ -46,15 +46,29 @@ app.post('/register', async (req, res) => {
 })
 
 app.post('/login',async(req,res)=>{
+  console.log(req.body)
   //STEP 1:
   //check if phone number exist
+  const user  = await User.findOne({phoneNumber: req.body.phoneNumber})
+  if(user){
+  const isMatched=  await bcrypt.compare(req.body.password, user.password);
+    if(isMatched){
+      const token = jwt.sign({ phoneNumber: req.body.phoneNumber }, process.env.SECRET_KEY);
+      res.json({msg: "Authorized", token})
+    }else{
+      res.json({msg: "Invalid Password"})
+    }
+  }else{
+    res.json({msg: "Phone Number not registered"})
+  }
   //
-  // NO: res.json({msg: "User not registered"})
+
   // YES: 
     // check if password matches
       // NO: res.json({msg: "Incorrect password"})
       //YES: token
 })
+
 
 app.get('/users',async(req,res)=>{
   const data = await User.find()
