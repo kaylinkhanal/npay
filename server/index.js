@@ -3,8 +3,12 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const dbConnect = require('./src/db/connection')
+const cors = require('cors')
+
+
 dbConnect()
 const app = express()
+app.use(cors())
 require('dotenv').config()
 //body parser
 app.use(express.json())
@@ -31,6 +35,7 @@ const User = mongoose.model('User', userSchema);
 const port = process.env.PORT || 8000
 
 app.post('/register', async (req, res) => {
+  console.log(req.body)
   const hashPassword = await bcrypt.hash(req.body?.password, saltRounds)
   req.body.password = hashPassword
   const phoneExist  = await User.exists({phoneNumber: req.body.phoneNumber})

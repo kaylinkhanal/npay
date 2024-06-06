@@ -19,8 +19,14 @@ export default function Main() {
   });
 
 
-  const registerUser = (values)=>{
-    fetch('http://localhost:4000/register')
+  const registerUser = async(values)=>{
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values)
+  };
+  const response = await fetch('http://localhost:4000/register', requestOptions);
+
   }
   return (
     <div className="flex flex-col w-full ">
