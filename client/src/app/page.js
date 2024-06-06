@@ -9,14 +9,19 @@ export default function Main() {
   const formik = useFormik({
     initialValues: {
       email: '',
-      fullName: 'ram gopal',
+      fullName: '',
       phoneNumber: '',
       password: '',
     },
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+      registerUser(values)
     },
   });
+
+
+  const registerUser = (values)=>{
+    fetch('http://localhost:4000/register')
+  }
   return (
     <div className="flex flex-col w-full ">
       <Card className=" flex self-center max-w-full w-[340px] ">
@@ -85,7 +90,7 @@ export default function Main() {
                   </Link>
                 </p>
                 <div className="flex gap-2 justify-end">
-                  <Button fullWidth color="primary">
+                  <Button type="submit" fullWidth color="primary">
                     Sign up
                   </Button>
                 </div>
