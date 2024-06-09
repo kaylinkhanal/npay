@@ -27,7 +27,7 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    enum : ['admin','user'],
+    enum : ['admin','user','merchant'],
     default: 'user'
   },
 });
@@ -42,9 +42,9 @@ app.post('/register', async (req, res) => {
   const emailExist  = await User.exists({email: req.body.email})
 
   if(phoneExist ){
-   return res.json({msg: "Phone Number is taken!"})
+   return res.status(409).json({msg: "Phone Number is taken!"})
   }else if(emailExist){
-    return res.json({msg: "Email is taken!"})
+    return res.status(409).json({msg: "Email is taken!"})
   }
   await User.create(req.body)
   return res.json({msg: "User registered"})
@@ -59,12 +59,12 @@ app.post('/login',async(req,res)=>{
   const isMatched=  await bcrypt.compare(req.body.password, user.password);
     if(isMatched){
       const token = jwt.sign({ phoneNumber: req.body.phoneNumber }, process.env.SECRET_KEY);
-      res.json({msg: "Authorized", token})
+      res.json({msg: "Authorized", token, user})
     }else{
-      res.json({msg: "Invalid Password"})
+      res.status(401).json({msg: "Invalid Password"})
     }
   }else{
-    res.json({msg: "Phone Number not registered"})
+    res.status(401).json({msg: "Phone Number not registered"})
   }
   //
 
