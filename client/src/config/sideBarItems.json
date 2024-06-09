@@ -1,0 +1,11 @@
+{
+    "admin": {
+
+    },
+    "user": [
+        {"id":1, "name": "Dashboard", "link": "/dashboard"},
+        {"id":1, "name": "Send", "link": "/send"},
+        {"id":1, "name": "Statement", "link": "/statement"},
+        {"id":1, "name": "Profile", "link": "/profile"}
+    ]
+}
