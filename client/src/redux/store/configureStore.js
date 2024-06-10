@@ -1,13 +1,10 @@
-import counterSlice from "../reducerSlices/counterSlice";
-import boxSlice from "../reducerSlices/boxSlice";
-
 import { configureStore, Tuple } from '@reduxjs/toolkit'
 import logger from "redux-logger";
+import userSlice from "../reducerSlices/userSlice";
 
 const store = configureStore({
     reducer:{
-        counter: counterSlice,
-        box: boxSlice
+        user: userSlice,
     },
     middleware: () => new Tuple(logger),
 })

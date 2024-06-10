@@ -5,9 +5,12 @@ import { useFormik } from 'formik';
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { setLoginDetails } from "@/redux/reducerSlices/userSlice";
+import { useDispatch } from "react-redux";
 
 
 export default function Main() {
+  const dispatch =useDispatch()
   const router =useRouter()
   const [selected, setSelected] = React.useState("login");
   const formik = useFormik({
@@ -63,7 +66,13 @@ export default function Main() {
 
   if(response.status == '200'){
     toast.success(data.msg)
-    router.push('/dashboard')
+    dispatch(setLoginDetails(data))
+    if(data.user.role == 'user'){
+      router.push('/dashboard')
+    }else{
+      router.push('/admin-dashboard')
+    }
+
   }else{
     toast.error(data.msg)
   }

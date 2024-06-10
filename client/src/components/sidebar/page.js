@@ -6,6 +6,7 @@ import { GenIcon } from "react-icons";
 import { CgProfile } from "react-icons/cg";
 import sideBarItems from '@/config/sideBarItems.json'
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 
 export const ItemCounter = ({number}) => (
@@ -23,19 +24,22 @@ export const IconWrapper = ({children, className}) => (
     </div>
   );
 export default function SideBar() {
+const {userDetails
+}=  useSelector(state=>state.user)
   console.log(sideBarItems)
   const router = useRouter()
   return (
     <Listbox
       aria-label="User Menu"
       onAction={(key) => router.push(key)}
-      className="p-0 gap-0 divide-y divide-default-300/50 dark:divide-default-100/80 bg-content1 max-w-[300px] overflow-visible shadow-small rounded-medium m-2"
+    
+      className={`p-0 gap-0 divide-y divide-default-300/50 dark:divide-default-100/80 ${userDetails.role=='admin' ?'bg-[#034CAD]': 'bg-red-500' }  max-w-[300px] text-white overflow-visible shadow-small rounded-medium m-2`}
       itemClasses={{
         base: "px-3 first:rounded-t-medium last:rounded-b-medium rounded-none gap-3 h-12 data-[hover=true]:bg-default-100/80",
       }}
     >
       {
-      sideBarItems['user'].map((item)=>{
+     sideBarItems[userDetails?.role] && sideBarItems[userDetails?.role].map((item)=>{
         return (
           <ListboxItem
           key={item.link}
