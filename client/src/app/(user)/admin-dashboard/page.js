@@ -1,16 +1,9 @@
-'use client'
+"use client";
 
-import React from 'react'
-
-
-
+import React from "react";
 
 const page = () => {
-  return (
-    <div>
-      dashboard ui
-    </div>
-  )
-}
+  return <div className="mx-10"></div>;
+};
 
-export default page
+export default page;
