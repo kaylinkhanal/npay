@@ -1,12 +1,17 @@
 'use client'
-import React, { useState } from "react";
-import {Tabs, Tab, Input, Link, Button, Card, CardBody, RadioGroup, Radio} from "@nextui-org/react";
+import React from "react";
+import {Tabs, Tab, Input, Link, Button, Card, CardBody,Select, RadioGroup, CardHeader, SelectItem, Radio} from "@nextui-org/react";
 import { useFormik } from 'formik';
+import Image from "next/image";
+import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { setLoginDetails } from "@/redux/reducerSlices/userSlice";
+import { useDispatch } from "react-redux";
 
 
 export default function Main() {
-  const router=useRouter()
+  const dispatch =useDispatch()
+  const router =useRouter()
   const [selected, setSelected] = React.useState("login");
   const formik = useFormik({
     initialValues: {
@@ -42,9 +47,10 @@ export default function Main() {
   const data = await response.json()
 
   if(response.status == '200'){
+    toast.success(data.msg)
     setSelected('login')
   }else{
-  return 
+    toast.error(data.msg)
   }
 }
 
@@ -59,17 +65,27 @@ export default function Main() {
   const data = await response.json()
 
   if(response.status == '200'){
-    router.push('/dashboard')
+    toast.success(data.msg)
+    dispatch(setLoginDetails(data))
+    if(data.user.role == 'user'){
+      router.push('/dashboard')
+    }else{
+      router.push('/admin-dashboard')
+    }
+
   }else{
-    return
+    toast.error(data.msg)
   }
 }
 
-  const [action,setAction] = useState("Welcome.");
+
+
+
+  
   return (
     <div class="header">
       <Card className=" flex self-center max-w-full w-[390px] position: absolute; ">
-    <div className='text'>{action}</div>
+    <div className='text'>Welcome</div>
     <div className='underline'></div>
         <CardBody className='container'>
           <Tabs
@@ -80,9 +96,17 @@ export default function Main() {
             onSelectionChange={setSelected}
           >
             <Tab key="login" title="Login">
-              <form className="flex flex-col gap-4">
-                <Input isRequired label="Phone Number" placeholder="Enter your Phone Number" type="phoneNumber" />
+              <form onSubmit={formikLogin.handleSubmit} className="flex flex-col gap-4">
+              <Input
+               name="phoneNumber"
+               onChange={formikLogin.handleChange}
+               value={formikLogin.values.phoneNumber}
+              isRequired label="Phone Number" placeholder="Enter your phoneNumber"  />
+             
                 <Input
+                   name="password"
+                   onChange={formikLogin.handleChange}
+                   value={formikLogin.values.password}
                   isRequired
                   label="Password"
                   placeholder="Enter your Password"
@@ -95,7 +119,7 @@ export default function Main() {
                   </Link>
                 </p>
                 <div className="flex gap-2 justify-end">
-                  <Button fullWidth className="submit">
+                  <Button type="submit" fullWidth color="primary">
                     Login
                   </Button>
                 </div>
@@ -145,7 +169,7 @@ export default function Main() {
                   </a>
                 </p>
                 <div className="flex gap-2 justify-end">
-                  <Button type="submit" className="submit">
+                  <Button type="submit" fullWidth color="primary">
                     Sign up
                   </Button>
                 </div>

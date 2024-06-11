@@ -135,7 +135,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 # Features phase-1
 
-- [ ] 1. Authentication (LOGIN REGISTER) (password hashing, JWT, db save details)
+- [x] 1. Authentication (LOGIN REGISTER) (password hashing, JWT, db save details)
 - [ ] 2. KYC (image upload)
 - [ ] 3. Admin approve KYC (wallet features unlock) (multi user login) (sidebar ->0. dashboard 1.  kyc validate (send email) 2. add institution )
 
