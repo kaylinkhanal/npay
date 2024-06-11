@@ -83,10 +83,11 @@ export default function Main() {
 
   
   return (
-    <div className="flex flex-col w-full ">
-      <Card className=" flex self-center max-w-full w-[340px] ">
-    <Image src= "/logo.png" width={100} height={100} alt="logo"/>
-        <CardBody className="overflow-hidden">
+    <div class="header">
+      <Card className=" flex self-center max-w-full w-[390px] position: absolute; ">
+    <div className='text'>Welcome</div>
+    <div className='underline'></div>
+        <CardBody className='container'>
           <Tabs
             fullWidth
             size="md"
@@ -108,12 +109,12 @@ export default function Main() {
                    value={formikLogin.values.password}
                   isRequired
                   label="Password"
-                  placeholder="Enter your password"
+                  placeholder="Enter your Password"
                   type="password"
                 />
                 <p className="text-center text-small">
                   Need to create an account?{" "}
-                  <Link size="sm" onPress={() => setSelected("sign-up")}>
+                  <Link className='forgot-password' size="sm" onPress={() => setSelected("sign-up")}>
                     Sign up
                   </Link>
                 </p>
@@ -131,24 +132,24 @@ export default function Main() {
                name="phoneNumber"
                onChange={formik.handleChange}
                value={formik.values.phoneNumber}
-              isRequired label="Phone Number" placeholder="Enter your phoneNumber"  />
+              isRequired label="Phone Number" placeholder="Enter your phone Number"  />
               <Input
                  name="fullName"
                  onChange={formik.handleChange}
                  value={formik.values.fullName}
-               isRequired label="fullName" placeholder="Enter your fullName" />
+               isRequired label="fullName" placeholder="Enter your Full Name" />
                 <Input
                   name="email"
                   onChange={formik.handleChange}
                   value={formik.values.email}
-                isRequired label="Email" placeholder="Enter your email" type="email" />
+                isRequired label="Email" placeholder="Enter your Email" type="email" />
                 <Input
                    name="password"
                    onChange={formik.handleChange}
                    value={formik.values.password}
                   isRequired
                   label="Password"
-                  placeholder="Enter your password"
+                  placeholder="Enter your Password"
                   type="password"
                 />
              <RadioGroup
@@ -163,9 +164,9 @@ export default function Main() {
 
                 <p className="text-center text-small">
                   Already have an account?{" "}
-                  <Link size="sm" onPress={() => setSelected("login")}>
+                  <a className='forgot-password' size="sm" onPress={() => setSelected("login")}>
                     Login
-                  </Link>
+                  </a>
                 </p>
                 <div className="flex gap-2 justify-end">
                   <Button type="submit" fullWidth color="primary">
