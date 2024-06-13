@@ -6,7 +6,7 @@
     ],
     "user": [
         {"id":1, "name": "Dashboard", "link": "/dashboard"},
-        {"id":1, "name": "Send", "link": "/send"},
+        {"id":1, "name": "Transactions", "link": "/transactions"},
         {"id":1, "name": "Statement", "link": "/statement"}
     
     ]

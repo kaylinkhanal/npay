@@ -87,7 +87,7 @@ export default function Main() {
       <Card className=" flex self-center max-w-full w-[390px] position: absolute; ">
     <div className='text'>Welcome</div>
     <div className='underline'></div>
-        <CardBody className='container'>
+        <CardBody className='loginContainer'>
           <Tabs
             fullWidth
             size="md"

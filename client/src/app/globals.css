@@ -8,7 +8,7 @@
     text-align: center;
 }
 
-.container{
+.loginContainer{
     display: flex;
     flex-direction: column;
     border-radius: 25px;
