@@ -16,6 +16,10 @@ const userSchema = new Schema({
     enum : ['admin','user','merchant'],
     default: 'user'
   },
+  totalBalance: {type: Number, require:true, default:1000},
+  income: Number,
+  expense: Number,
+  rewardPoint: Number
 });
 const User = mongoose.model('User', userSchema);
 module.exports= User
