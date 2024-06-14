@@ -6,6 +6,7 @@ import { CgDollar } from 'react-icons/cg'
 import { useSelector } from 'react-redux'
 import { SiMoneygram } from "react-icons/si";
 import { GiExpense } from "react-icons/gi";
+import Link from 'next/link'
 
 
 
@@ -17,6 +18,8 @@ const page = () => {
     <div className='flex text-2xl m-6 p-2'>
       Hi 
        <div className='font-mono font-extrabold mx-4 text-green-400'>{userDetails.fullName}</div>
+       {!userDetails.isKycVerified && <p className='p-2 bg-orange-100 ml-2 rounded-lg text-sm'> ⚠️ User KYC is not verified. <Link href="/user-kyc">Verify Now</Link> </p> }
+   
     </div> 
     <section className="text-gray-600 body-font ">
   <div className="container px-5  mx-auto ">
