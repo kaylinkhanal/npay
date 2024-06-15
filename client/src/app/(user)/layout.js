@@ -13,6 +13,7 @@ import { Avatar } from "@nextui-org/react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "@/redux/reducerSlices/userSlice";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 const layout = ({ children }) => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -23,7 +24,10 @@ const layout = ({ children }) => {
   };
   const { userDetails } = useSelector((state) => state.user);
   return (
-    <div>
+    <div className="max-h-screen">
+      <div className='flex grid  pl-52 absolute'>
+       {!userDetails.isKycVerified && <p className='p-2 bg-orange-100 rounded-lg text-md'> ⚠️ User KYC is not verified. <Link href="/user-kyc">Verify Now</Link> </p> }
+      </div> 
       <div className="flex m-4">
         <div className="flex flex-col items-center">
           <Image src="/logo.png" width={80} height={80} className="" />
@@ -71,6 +75,7 @@ const layout = ({ children }) => {
           {children}
         </div>
       </div>
+
     </div>
   );
 };
