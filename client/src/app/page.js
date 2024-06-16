@@ -85,6 +85,7 @@ export default function Main() {
   return (
     <div class="header">
       <Card className=" flex self-center max-w-full w-[390px] position: absolute; ">
+      <Image src="/logo.png" width={80} height={80} className="self-center" />
     <div className='text'>Welcome</div>
     <div className='underline'></div>
         <CardBody className='loginContainer'>
