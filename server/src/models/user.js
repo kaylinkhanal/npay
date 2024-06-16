@@ -17,11 +17,12 @@ const userSchema = new Schema({
     default: 'user'
   },
   totalBalance: {type: Number, require:true, default:1000},
-  isKycVerified: {type: Boolean, default: false},
   income: Number,
   expense: Number,
   rewardPoint: Number,
-  citizenshipPhoto: String
+
 });
 const User = mongoose.model('User', userSchema);
 module.exports= User
+
+

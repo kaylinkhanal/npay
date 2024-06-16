@@ -2,6 +2,7 @@ const User = require("../models/user")
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
+const UserKyc = require("../models/userKyc");
 
 const findAllUsers = async(req,res)=>{
     const data = await User.find()
@@ -20,8 +21,9 @@ const findAllUsers = async(req,res)=>{
     if(user){
     const isMatched=  await bcrypt.compare(req.body.password, user.password);
       if(isMatched){
+        const kycDetails = await UserKyc.findOne({userId:  user._id})
         const token = jwt.sign({ phoneNumber: req.body.phoneNumber }, process.env.SECRET_KEY);
-        res.json({msg: "Authorized", token, user})
+        res.json({msg: "Authorized", token, user,kycDetails })
       }else{
         res.status(401).json({msg: "Invalid Password"})
       }
@@ -61,4 +63,13 @@ const registerUser =  async (req, res) => {
   }
 
 
-  module.exports = { findAllUsers, loginUser ,registerUser}
+  const updateUserKyc = async (req,res)=>{
+    req.body.citizenshipPhoto = req.file.filename
+    await UserKyc.create(req.body)
+    res.json({
+      msg: "KYC submitted! Please wait for verification!"
+    })
+  }
+
+
+  module.exports = { findAllUsers, loginUser ,registerUser,updateUserKyc}
