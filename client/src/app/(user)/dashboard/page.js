@@ -30,13 +30,13 @@ const page = () => {
               <Card className="p-4">
                 <CardBody className="font-mono inline-grid grid-cols-2">
                   <span className="text-gray-400">Total Balance:</span>
-                  <span className="text-gray-400">Account Number:</span>
+                  <span className="text-gray-400">Npay ID:</span>
                   <span className="text-4xl font-extrabold text-green-500">
                     $ {userDetails.totalBalance}
                   </span>
                   <span
                     onClick={copylink}
-                    className="text-xl font-bold text-gray-800"
+                    className="text-4xl font-bold text-gray-800"
                   >
                     {userDetails.phoneNumber}
                   </span>
@@ -45,6 +45,7 @@ const page = () => {
             </div>
     </div>
         </section>
+        RECENT TRANSACTIONS
         <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
                 <table className="min-w-full leading-normal">
