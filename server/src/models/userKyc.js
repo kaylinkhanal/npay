@@ -10,10 +10,12 @@ const userKycSchema = new Schema({
   temporaryAddress: String,
   kycVerifiedStatus: {
     type: String,
-    enum : ['unverified','pending','verified'],
-    default: 'user'
+    enum : ['unVerified','pending','verified'],
+    default: 'unVerified'
   },
   userId: String
+},{
+  timestamps:true
 });
 const UserKyc = mongoose.model('UserKyc', userKycSchema);
 module.exports= UserKyc

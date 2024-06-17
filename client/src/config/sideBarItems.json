@@ -1,8 +1,7 @@
 {
     "admin": [
-        {"id":1, "name": "User KYC", "link": "/user-kyc"},
-        {"id":1, "name": "Statement", "link": "/statement"}
- 
+        {"id":1, "name": "Dashboard", "link": "/admin-dashboard"},
+        {"id":1, "name": "Verify KYC", "link": "/verify-kyc"}
     ],
     "user": [
         {"id":1, "name": "Dashboard", "link": "/dashboard"},

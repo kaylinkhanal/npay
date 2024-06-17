@@ -21,9 +21,9 @@ const findAllUsers = async(req,res)=>{
     if(user){
     const isMatched=  await bcrypt.compare(req.body.password, user.password);
       if(isMatched){
-        const kycDetails = await UserKyc.findOne({userId:  user._id})
+       
         const token = jwt.sign({ phoneNumber: req.body.phoneNumber }, process.env.SECRET_KEY);
-        res.json({msg: "Authorized", token, user,kycDetails })
+        res.json({msg: "Authorized", token, user })
       }else{
         res.status(401).json({msg: "Invalid Password"})
       }
@@ -65,6 +65,7 @@ const registerUser =  async (req, res) => {
 
   const updateUserKyc = async (req,res)=>{
     req.body.citizenshipPhoto = req.file.filename
+    req.body.kycVerifiedStatus = 'pending'
     await UserKyc.create(req.body)
     res.json({
       msg: "KYC submitted! Please wait for verification!"
@@ -72,4 +73,24 @@ const registerUser =  async (req, res) => {
   }
 
 
-  module.exports = { findAllUsers, loginUser ,registerUser,updateUserKyc}
+  const checkKycStatusByUserId= async (req,res)=>{
+    const kycDetails =await UserKyc.findOne({userId: req.params.userId})
+    if(!kycDetails){
+     return res.json({
+        kycVerifiedStatus: 'unVerified'
+      })
+    }
+   return res.json({
+      kycVerifiedStatus: kycDetails.kycVerifiedStatus
+    })
+
+  }
+
+  const getUserKyc = async (req,res)=>{
+   const userKyc =  await UserKyc.find()
+   res.json(
+    userKyc
+   )
+  }
+
+  module.exports = { findAllUsers, getUserKyc,loginUser ,registerUser,updateUserKyc,checkKycStatusByUserId}

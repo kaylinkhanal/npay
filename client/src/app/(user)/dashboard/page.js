@@ -1,19 +1,29 @@
 "use client";
 
 import { Card, CardBody } from "@nextui-org/react";
-import React from "react";
+import React, {useEffect} from "react";
 import { CgDollar } from "react-icons/cg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BsGraphUpArrow ,BsGraphDownArrow  } from "react-icons/bs";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import axios from "axios";
+import { setUserKycVerifiedStatus } from "@/redux/reducerSlices/userSlice";
 
 const page = () => {
+  const dispatch = useDispatch()
   const copylink = (e) => {
     toast.success("Number Copied");
     navigator.clipboard.writeText(userDetails.phoneNumber);
   };
-
+  useEffect(() => {
+    checkKycStatus()
+  }, []);
+  
+  const checkKycStatus = async ()=> {
+   const {data} =await axios.get(`http://localhost:4000/kyc-status/${userDetails._id}`)
+    dispatch(setUserKycVerifiedStatus(data.kycVerifiedStatus))
+  }
   const { userDetails } = useSelector((state) => state.user);
   return (
     <div className="grid grid-cols-4 ">

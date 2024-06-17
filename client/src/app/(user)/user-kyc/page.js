@@ -1,11 +1,12 @@
 'use client'
-import React,{useState} from 'react';
+import React,{ useState} from 'react';
 import { useFormik } from 'formik';
 import { Input, Radio, RadioGroup } from '@nextui-org/react';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 
 const UserKyc = () => {
+
   const userDetailsKyc= [
     {name:'email', label:'Email'},
      {name:'fullName', label:'Full Name'}, 
