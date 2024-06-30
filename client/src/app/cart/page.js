@@ -7,12 +7,12 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const Cart = () => {
    const dispatch= useDispatch()
-    const {cartItems } = useSelector(state=>state.product)
+    const {wishLists } = useSelector(state=>state.product)
   return (
     <div>
-      YOUR CART ITEMS
+      YOUR wishlist ITEMS
   
-        {cartItems.length>0 ? cartItems.map((item)=>{
+        {wishLists.length>0 ? wishLists.map((item)=>{
           return (
             <div className='p-2 m-2 shadow-md'>
               <p>{item.productName}</p>

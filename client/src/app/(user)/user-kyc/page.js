@@ -43,24 +43,17 @@ const UserKyc = () => {
   });
 
   const submitUserKyc = async(values) => {
-
     let formData = new FormData(); 
-    formData.append('dob', values.dob); 
-    formData.append('fathersName', values.fathersName);
-    formData.append('citizenshipNumber', values.citizenshipNumber);
-    formData.append('permanentAddress', values.permanentAddress);
-    formData.append('temporaryAddress', values.temporaryAddress);
+    for(let item in values){
+      formData.append(item, values[item] ); 
+    }
     formData.append('userId', _id);
-    formData.append('panNumber', values.panNumber);
     formData.append('citizenshipPhoto', image);
-
-    
-
     const requestOptions = {
       method: 'POST',
       body: formData
   };
-  const response = await fetch('http://localhost:4000/user-kyc', requestOptions);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}user-kyc`, requestOptions);
   const data = await response.json()
   if(data.msg){
     toast(data.msg)

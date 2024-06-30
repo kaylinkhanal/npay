@@ -21,7 +21,6 @@ const findAllUsers = async(req,res)=>{
     if(user){
     const isMatched=  await bcrypt.compare(req.body.password, user.password);
       if(isMatched){
-       
         const token = jwt.sign({ phoneNumber: req.body.phoneNumber }, process.env.SECRET_KEY);
         res.json({msg: "Authorized", token, user })
       }else{
@@ -64,6 +63,7 @@ const registerUser =  async (req, res) => {
 
 
   const updateUserKyc = async (req,res)=>{
+    console.log(req.body)
     req.body.citizenshipPhoto = req.file.filename
     req.body.kycVerifiedStatus = 'pending'
     await UserKyc.create(req.body)

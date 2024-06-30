@@ -12,11 +12,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 const router = Router(); 
 
-const { addNewProduct,getAllProducts,getProductDetailsById} = require('../controllers/product');
+const { addNewProduct,getAllProducts,getProductDetailsById,deleteProductById} = require('../controllers/product');
 
 router.post('/products',upload.single('productImage'), addNewProduct)
 router.get('/products', getAllProducts)
-
+router.delete('/products/:id', deleteProductById)
 router.get('/products/:id', getProductDetailsById)
   module.exports = router
 

@@ -3,7 +3,7 @@ import ProductCard from '@/components/card/page'
 import axios from 'axios'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { BsCart } from 'react-icons/bs'
+import { BsCart, BsHeart } from 'react-icons/bs'
 import { useSelector } from 'react-redux'
 import {Badge, Avatar, Switch} from "@nextui-org/react";
 
@@ -11,7 +11,7 @@ const Home = () => {
   const [productList, setProductList] = useState([])
   const [isInvisible, setIsInvisible] = useState(false);
 
-  const {cartItems} = useSelector(state=>state.product)
+  const {wishLists} = useSelector(state=>state.product)
   useEffect(()=>{
     fetchProductList()
   },[])
@@ -23,8 +23,9 @@ const Home = () => {
   return (
     <div className='m-4'>
        <Link href="/cart" >
-       <Badge color="danger" content={cartItems.length} isInvisible={isInvisible} shape="circle">
-       <BsCart size={40}/>
+       <Badge color="danger" content={wishLists?.length || 0} isInvisible={isInvisible} shape="circle">
+       <BsHeart size={40}/>
+
         </Badge>
         
     

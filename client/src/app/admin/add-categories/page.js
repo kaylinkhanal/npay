@@ -60,7 +60,7 @@ const UserKyc = () => {
       method: 'POST',
       body: formData
   };
-  const response = await fetch('http://localhost:4000/user-kyc', requestOptions);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}user-kyc`, requestOptions);
   const data = await response.json()
   if(data.msg){
     toast(data.msg)

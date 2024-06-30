@@ -13,6 +13,11 @@ const Product = require("../models/product")
    return res.json(productList)
    }
   
+   const deleteProductById = async (req,res)=>{
+    const productList =  await Product.findByIdAndDelete(req.params.id)
+    return res.json(productList)
+    }
+   
 
    const getProductDetailsById = async (req,res)=>{
     try{
@@ -27,4 +32,4 @@ const Product = require("../models/product")
  
     }
    
-  module.exports = { addNewProduct,getAllProducts,getProductDetailsById}
+  module.exports = { addNewProduct,getAllProducts,deleteProductById,getProductDetailsById}
