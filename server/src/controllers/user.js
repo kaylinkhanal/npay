@@ -9,9 +9,12 @@ const findAllUsers = async(req,res)=>{
     res.json(data)
   }
 
-
-
-
+  const getUserBalanceById = async (req,res)=>{
+    const totalBalance =await User.findById(req.params.userId).select('totalBalance')
+    res.json(
+      totalBalance
+    )
+  }
 
  const loginUser=  async(req,res)=>{
     console.log(req.body)
@@ -93,4 +96,4 @@ const registerUser =  async (req, res) => {
    )
   }
 
-  module.exports = { findAllUsers, getUserKyc,loginUser ,registerUser,updateUserKyc,checkKycStatusByUserId}
+  module.exports = { findAllUsers, getUserKyc,loginUser ,registerUser,updateUserKyc,checkKycStatusByUserId,getUserBalanceById}

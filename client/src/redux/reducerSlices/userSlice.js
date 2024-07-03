@@ -24,6 +24,11 @@ const userSlice = createSlice({
     logoutUser(state, actions) {
            return initialState
     },
+
+    updateUserBalance(state,actions){
+    state.userDetails.totalBalance=actions.payload
+    },
+
     setUserKycVerifiedStatus(state, actions) {
       return {
         ...state,
@@ -33,5 +38,5 @@ const userSlice = createSlice({
   },
 })
 
-export const{ setLoginDetails, logoutUser,setUserKycVerifiedStatus } = userSlice.actions
+export const{ setLoginDetails, logoutUser,setUserKycVerifiedStatus,updateUserBalance } = userSlice.actions
 export default userSlice.reducer

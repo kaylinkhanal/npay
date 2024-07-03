@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 const router = Router(); 
 
-const { registerUser, loginUser, findAllUsers,updateUserKyc,checkKycStatusByUserId,getUserKyc } = require('../controllers/user');
+const { registerUser, loginUser, findAllUsers,updateUserKyc,checkKycStatusByUserId,getUserKyc,getUserBalanceById } = require('../controllers/user');
 
 router.post('/register', registerUser)
   
@@ -26,6 +26,8 @@ router.post('/register', registerUser)
   router.get('/kyc-status/:userId', checkKycStatusByUserId)
 
   router.get('/user-kyc', getUserKyc)
+
+  router.get('/user-balance/:userId', getUserBalanceById)
 
   module.exports = router
 

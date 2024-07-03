@@ -6,8 +6,13 @@ import { CgDollar } from "react-icons/cg";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 const SendMoneyForm = () => {
  
+const {userDetails} = useSelector(state=>state.user)
+
   const sendMoneySchema = Yup.object().shape({
     npayIdReceiver: Yup.string()
       .min(4, 'Too Short!')
@@ -30,11 +35,25 @@ const SendMoneyForm = () => {
       amount: '',
       remarks: ''
     },
+    
+
     validationSchema:sendMoneySchema,
     onSubmit: values => {
-      console.log(values)
+      makeTransactions(values)
     },
   });
+    
+  const  makeTransactions= async(values)=>{
+ //values.phoneNumber = userDetails.phoneNumber
+ const {data}=await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}transactions`,{
+  "npayIdReceiver": values.npayIdReceiver,
+  "npayIdSender": userDetails.phoneNumber,
+  "amount": values.amount,
+  "remarks": values.remarks
+ })
+ toast.success(data.msg)
+  }
+
   return (
     <form onSubmit={formik.handleSubmit}>
          <label htmlFor="remarks">Receiver N-pay Id</label>
@@ -96,7 +115,7 @@ const Transactions = () => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Send Money</ModalHeader>
               <ModalBody>
                <SendMoneyForm/>
               </ModalBody>
