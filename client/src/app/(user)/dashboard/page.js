@@ -8,7 +8,7 @@ import { BsGraphUpArrow ,BsGraphDownArrow  } from "react-icons/bs";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { setUserKycVerifiedStatus } from "@/redux/reducerSlices/userSlice";
+import { setUserKycVerifiedStatus,updateUserBalance } from "@/redux/reducerSlices/userSlice";
 
 const page = () => {
   const dispatch = useDispatch()
@@ -18,13 +18,19 @@ const page = () => {
   };
   useEffect(() => {
     checkKycStatus()
+    checkUserBalance()
   }, []);
   
   const checkKycStatus = async ()=> {
-   const {data} =await axios.get(`http://localhost:4000/kyc-status/${userDetails._id}`)
+   const {data} =await axios.get(`${process.env.NEXT_PUBLIC_API_URL}kyc-status/${userDetails._id}`)
     dispatch(setUserKycVerifiedStatus(data.kycVerifiedStatus))
   }
   const { userDetails } = useSelector((state) => state.user);
+
+  const checkUserBalance =async()=> {
+   const {data} =await axios.get(`${process.env.NEXT_PUBLIC_API_URL}user-balance/${userDetails._id}`)
+  dispatch(updateUserBalance(data.totalBalance))
+  }
   return (
     <div className="grid grid-cols-4 ">
       <div className="col-span-3">

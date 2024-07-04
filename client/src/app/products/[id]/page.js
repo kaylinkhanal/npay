@@ -18,7 +18,7 @@ const ProductDetails = ({params}) => {
   },[])
 
   const fetchProductDetails =async()=> {
-    const {data} =await axios.get(`http://localhost:4000/products/${params.id}`)
+    const {data} =await axios.get(`${process.env.NEXT_PUBLIC_API_URL}products/${params.id}`)
     setProductDetails(data)
   }
   return (
