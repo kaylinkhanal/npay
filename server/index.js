@@ -1,5 +1,15 @@
 const express = require('express')
+const { Server } = require('socket.io');
+const { createServer } = require('node:http');
+const app = express()
 
+const server = createServer(app);
+
+const io = new Server(server,{
+  cors: {
+    origin: "*"
+  }
+});
 const dbConnect = require('./src/db/connection')
 const userRoute = require('./src/routes/user')
 const productRoute = require('./src/routes/product')
@@ -11,8 +21,7 @@ const initializeNPayBalanceAndCharge = require('./src/initializeNpay/script')
 const cors = require('cors');
 initializeNPayBalanceAndCharge()
 dbConnect()
-const app = express()
-
+//
 app.use(cors())
 require('dotenv').config()
 //body parser
@@ -27,8 +36,18 @@ const port = process.env.PORT || 8000
 app.use('/rooms-image', express.static(path.join(__dirname, 'uploads/rooms')))
 
 
-// app.use())
-// express.static(
-app.listen(port, () => {
+
+
+io.on('connection', (socket) => {
+
+  socket.on('transactions', (transactions) => {
+      io.emit('updateDetails', transactions)
+  });
+
+ 
+});
+
+
+server.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })

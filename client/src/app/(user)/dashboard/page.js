@@ -8,7 +8,9 @@ import { BsGraphUpArrow ,BsGraphDownArrow  } from "react-icons/bs";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import axios from "axios";
+
 import { setUserKycVerifiedStatus,updateUserBalance } from "@/redux/reducerSlices/userSlice";
+import { socket } from "@/socket/socket";
 
 const page = () => {
   const dispatch = useDispatch()
@@ -20,6 +22,15 @@ const page = () => {
     checkKycStatus()
     checkUserBalance()
   }, []);
+
+  useEffect(()=>{
+    socket.on('updateDetails',(transactions)=>{
+      const {npayIdReceiver, npayIdSender} =transactions 
+      if(userDetails.phoneNumber == npayIdReceiver || userDetails.phoneNumber == npayIdSender){
+        checkUserBalance()
+      }
+    })
+  },[socket])
   
   const checkKycStatus = async ()=> {
    const {data} =await axios.get(`${process.env.NEXT_PUBLIC_API_URL}kyc-status/${userDetails._id}`)

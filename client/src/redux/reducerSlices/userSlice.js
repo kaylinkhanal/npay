@@ -25,7 +25,6 @@ const userSlice = createSlice({
            return initialState
     },
     updateUserBalance(state, actions) {
-      debugger;
      state.userDetails.totalBalance =actions.payload
 },
     setUserKycVerifiedStatus(state, actions) {
