@@ -3,18 +3,30 @@
 import { Card, CardBody, Input } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { CgDollar } from "react-icons/cg";
-
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { socket } from "@/socket/socket";
 import Lottie from 'react-lottie';
 import animationData from '@/lotties/success';
+import { useRouter } from "next/navigation";
+import { GoTriangleDown } from "react-icons/go";
+
 const SendMoneyForm = () => {
+  useEffect(()=>{
+    socket.on('connection')
+  },[])
+  
   const [isTrasactionSuccess, setIsTrasactionSuccess] = useState(false)
   const [successTransactionDetails, setSuccessTransactionDetails] = useState({})
+  const itemValues = Object.entries(successTransactionDetails)
+  const itemObject = itemValues.reduce((obj, [key, value]) => {
+    obj[key] = value
+    return obj
+  }, {})
+  // console.log(itemObject.amount)
   const defaultOptions = {
     loop: false,
     autoplay: false,
@@ -24,9 +36,11 @@ const SendMoneyForm = () => {
     }
   };
 
-  useEffect(()=>{
-    socket.on('connection')
-  },[])
+  const router = useRouter();
+  const handleClick = () => {
+    router.push('/dashboard')
+  };
+
   const {userDetails} = useSelector(state=>state.user)
   const sendMoneySchema = Yup.object().shape({
     npayIdReceiver: Yup.string()
@@ -57,7 +71,7 @@ const SendMoneyForm = () => {
   });
 
   const makeTransactions = async(values)=> {
-   const {data}= await axios.patch('http://localhost:9000/transactions', {
+   const {data}= await axios.patch('http://localhost:8000/transactions', {
     "npayIdReceiver": values.npayIdReceiver,
     "npayIdSender": userDetails.phoneNumber,
     "amount": values.amount ,
@@ -74,6 +88,43 @@ if(data.transactionId){
   alert(data.msg)
 }
   }
+  const renderTransactionDetails = () => {
+    return (
+       <div>
+        <h5 className="text-center text-xl font-bold mb-4 text-green-500">Transaction Successful!</h5>
+        <div className="p-2 m-1 shadow-lg">
+          <div className="flex justify-between items-center">
+            <strong className="text-sm">Total Balance:</strong>
+              <span className="text-red-500 text-md flex items-center">
+                <GoTriangleDown className="text-red-500" />
+                  {itemObject.amount}
+              </span>
+          </div>
+      <div className="mt-1">
+        <span className="text-md">
+          ${userDetails.totalBalance - itemObject.amount - (0.1 * itemObject.amount)}
+        </span>
+      </div>
+    </div>
+<div className="grid grid-cols-2 gap-x-14 p-2 m-1 shadow-lg">
+    {itemValues.map(([key, value]) => (
+        <div key={key} className="p-1">
+          <strong className="capitalize block mb-1 text-sm">{key}:</strong> 
+            <span className="text-sm">{value}</span>
+        </div>
+        ))}
+      </div>
+        <Button
+          type="submit"
+          fullWidth
+          className="bg-green-500 text-white" 
+          onClick={()=>handleClick()}
+          >
+            Done
+        </Button>
+      </div>
+    );
+  }
   return (
     <div>
         {
@@ -81,10 +132,11 @@ if(data.transactionId){
           <>
            <Lottie 
                 options={defaultOptions}
-                  height={400}
-                  width={400}
+                  height={70}
+                  width={70}
+                  style={{ marginTop: '1px' }}
                 />
-          {JSON.stringify(successTransactionDetails)}
+           {renderTransactionDetails()}
           </>
          
         ): (
