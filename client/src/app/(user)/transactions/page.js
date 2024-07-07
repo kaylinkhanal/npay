@@ -105,6 +105,7 @@ if(data.transactionId){
           ${userDetails.totalBalance - itemObject.amount - (0.1 * itemObject.amount)}
         </span>
       </div>
+      
     </div>
 <div className="grid grid-cols-2 gap-x-14 p-2 m-1 shadow-lg">
     {itemValues.map(([key, value]) => (
