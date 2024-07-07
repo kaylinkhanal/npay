@@ -8,7 +8,6 @@ import { BsGraphUpArrow ,BsGraphDownArrow  } from "react-icons/bs";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import axios from "axios";
-
 import { setUserKycVerifiedStatus,updateUserBalance } from "@/redux/reducerSlices/userSlice";
 import { socket } from "@/socket/socket";
 
