@@ -13,6 +13,7 @@ import Lottie from 'react-lottie';
 import animationData from '@/lotties/success';
 import { useRouter } from "next/navigation";
 import { GoTriangleDown } from "react-icons/go";
+import BillsModal from "@/components/billsModal/page";
 
 const SendMoneyForm = () => {
   useEffect(()=>{
@@ -197,7 +198,7 @@ const Transactions = () => {
         </Card>
         <Card className="w-[30%] m-2">
           <CardBody>
-            Bills Payment
+            <BillsModal/>
           </CardBody>
         </Card>
 

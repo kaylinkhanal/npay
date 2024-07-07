@@ -15,6 +15,7 @@ const userRoute = require('./src/routes/user')
 const productRoute = require('./src/routes/product')
 const transactionsRoute = require('./src/routes/transactions')
 const roomsRoute = require('./src/routes/rooms')
+const merchantRoute = require('./src/routes/merchant')
 const path = require('path')
 
 const initializeNPayBalanceAndCharge = require('./src/initializeNpay/script')
@@ -30,6 +31,8 @@ app.use(userRoute)
 app.use(productRoute)
 app.use(transactionsRoute)
 app.use(roomsRoute)
+app.use(merchantRoute)
+
 
 const port = process.env.PORT || 8000
 
