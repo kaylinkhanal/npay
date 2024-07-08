@@ -136,11 +136,11 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 # Features phase-1
 
 - [x] 1. Authentication (LOGIN REGISTER) (password hashing, JWT, db save details)
-- [ ] 2. KYC (image upload)
-- [ ] 3. Admin approve KYC (wallet features unlock) (multi user login) (sidebar ->0. dashboard 1.  kyc validate (send email) 2. add institution )
+- [x] 2. KYC (image upload)
+- [x] 3. Admin approve KYC (wallet features unlock) (multi user login) (sidebar ->0. dashboard 1.  kyc validate (send email) 2. add institution )
 
-- [ ] 1. 100 balance  
-- [ ] 2. 4 sections: (multiple layout)
+- [x] 1. 100 balance  
+- [x] 2. 4 sections: (multiple layout)
     2.1 Dashboard (graph and reward point)
         -  bar graph to display daily expenditure
         -  expense tracker 

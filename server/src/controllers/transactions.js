@@ -40,6 +40,7 @@ const router = require("../routes/user")
         msg: "transactions success",
         transactionId: transactionDetail._id,
         transactionDetail,
+        senderUserTotalBalance:  senderUser.totalBalance
       })
   }
 

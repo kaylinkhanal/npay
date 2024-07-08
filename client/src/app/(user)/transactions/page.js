@@ -71,7 +71,7 @@ const SendMoneyForm = () => {
   });
 
   const makeTransactions = async(values)=> {
-   const {data}= await axios.patch('http://localhost:8000/transactions', {
+   const {data}= await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}transactions`, {
     "npayIdReceiver": values.npayIdReceiver,
     "npayIdSender": userDetails.phoneNumber,
     "amount": values.amount ,
@@ -83,6 +83,7 @@ const SendMoneyForm = () => {
 })
 if(data.transactionId){
   setIsTrasactionSuccess(true)
+  data.transactionDetail['Remaining Balance'] = data.senderUserTotalBalance
   setSuccessTransactionDetails(data.transactionDetail)
 }else{
   alert(data.msg)
@@ -97,23 +98,28 @@ if(data.transactionId){
             <strong className="text-sm">Total Balance:</strong>
               <span className="text-red-500 text-md flex items-center">
                 <GoTriangleDown className="text-red-500" />
-                  {itemObject.amount}
+                  {itemObject.amount +(0.1 * itemObject.amount)}
               </span>
           </div>
       <div className="mt-1">
         <span className="text-md">
-          ${userDetails.totalBalance - itemObject.amount - (0.1 * itemObject.amount)}
+         { itemObject['Remaining Balance']}
         </span>
       </div>
       
     </div>
 <div className="grid grid-cols-2 gap-x-14 p-2 m-1 shadow-lg">
-    {itemValues.map(([key, value]) => (
+
+    {itemValues.map(([key, value]) => {
+      if(key=='__v') return null
+      return(
         <div key={key} className="p-1">
           <strong className="capitalize block mb-1 text-sm">{key}:</strong> 
             <span className="text-sm">{value}</span>
         </div>
-        ))}
+        )}
+        
+        )}
       </div>
         <Button
           type="submit"
@@ -189,12 +195,12 @@ const Transactions = () => {
             Send Money
           </CardBody>
         </Card>
-        <Card className="w-[30%] m-2">
+        {/* <Card className="w-[30%] m-2">
           <CardBody>
             <CgDollar/>
             Request Money
           </CardBody>
-        </Card>
+        </Card> */}
         <Card className="w-[30%] m-2">
           <CardBody>
             Bills Payment
