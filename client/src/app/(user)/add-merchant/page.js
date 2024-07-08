@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { BsTrash2 } from 'react-icons/bs';
 import * as Yup from 'yup';
+import CreatableSelect from 'react-select/creatable';
 
 
 
@@ -21,9 +22,23 @@ const merchantForm = () => {
   const merchantDetails= [
     {name:'merchantName', label:'Merchant Name'},
     {name:'merchantPhoneNumber', label:'Phone Number'}, 
-    {name:'merchantServiceCharge', label:'Service Charge'} 
-  ]
+    {name:'merchantServiceCharge', label:'Service Charge'},
+    {name:'merchantFields', label:'Merchant Fields', type:'multi'},
 
+  ]
+  const [inputValue, setInputValue] = useState('');
+  const [value, setValue] = useState([]);
+
+  const handleKeyDown= (event) => {
+    if (!inputValue) return;
+    switch (event.key) {
+      case 'Enter':
+      case 'Tab':
+        setValue((prev) => [...prev, createOption(inputValue)]);
+        setInputValue('');
+        event.preventDefault();
+    }
+  };
   const formik = useFormik({
     initialValues: {
         merchantName:'',
@@ -41,10 +56,8 @@ if(data){
 }
 }
   const submitMerchant = async(values) => {
-    let formData = new FormData(); 
-    formData.append('merchantName', values.merchantName); 
-    formData.append('merchantPhoneNumber', values.merchantPhoneNumber);
-    formData.append('merchantServiceCharge', values.merchantServiceCharge);
+    debugger;
+    values.merchantFields= value
 
     const requestOptions = {
       method: 'POST',
@@ -62,15 +75,41 @@ if(data){
     toast.error(data.msg)
   }
   }
-
+  const components = {
+    DropdownIndicator: null,
+  };
+  const createOption = (label) => ({
+    label,
+    value: label,
+  });
+  
   return (
     <form className='m-4 flex flex-col border shadow-md rounded-lg p-4' onSubmit={formik.handleSubmit}>
      <h1 className='text-4xl text-green-300'>Add Merchant</h1>
      {merchantDetails.map((item)=>{
+      if(item.type === 'multi'){
+     return   (
+     <div>
+                <label htmlFor={item.name}>{item.label}</label>
+                <CreatableSelect
+        components={components}
+        inputValue={inputValue}
+        isClearable
+        isMulti
+        menuIsOpen={false}
+        onChange={(newValue) => setValue(newValue)}
+        onInputChange={(newValue) => setInputValue(newValue)}
+        onKeyDown={handleKeyDown}
+        placeholder="Type something and press enter..."
+        value={value}
+      />
+     </div>
+    )
+      }
       return (
         <div>
            <label htmlFor={item.name}>{item.label}</label>
-      <Input
+           <Input
         id={item.name}
         name={item.name}
         type="text"
