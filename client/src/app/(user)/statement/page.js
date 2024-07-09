@@ -34,7 +34,7 @@ const page = () => {
     <div className="flex-col p-4 m-2 bg-gray-100 rounded-lg">
       <h2 className="font-bold text-lg mb-2">Account Information</h2>
       <p><strong>KYV Verified Status:</strong> {dataOfUser.kycVerifiedStatus}</p>
-      <p><strong>Opening Balance:</strong> {dataOfUser.userDetails.openingBalance}</p>
+      <p><strong>Opening Balance:</strong></p>
       <p><strong>Closing Balance:</strong> {dataOfUser.userDetails.totalBalance}</p>
     </div>
   </div>
