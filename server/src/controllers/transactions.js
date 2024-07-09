@@ -8,7 +8,7 @@ const router = require("../routes/user")
       const receiverUser = await User.findOne({phoneNumber: npayIdReceiver})
       const senderUser = await User.findOne({phoneNumber: npayIdSender})
       const npayReserve =await NPayReserve.find()
-
+      
 
 
       const amountWithCharge = Number(amount) + npayReserve[0].npayServiceCharge/100 * Number(amount)
@@ -33,7 +33,10 @@ const router = require("../routes/user")
         sender: npayIdSender,
         receiver: npayIdReceiver,
         amount,
-        remarks
+        remarks,
+        remainingAmountSender:senderUser.totalBalance,
+        remainingAmountReceiver: receiverUser.totalBalance,
+        transactionServiceChargre: [npayReserve[0].npayServiceCharge]/100*amount
       })
 
       return res.json({
@@ -45,9 +48,15 @@ const router = require("../routes/user")
   }
 
 // i need only those transactions done by
-const getStatementByUserId = async(req,res) => {
-   const data = await Transactions.find()
-   res.json(data)
-}
+    const getStatementByUserId = async(req,res) => {
+      const data = await Transactions.find({
+         $or: [
+                  { sender: req.params.userId },
+                   { receiver: req.params.userId }
+               ]
+      });
+
+        res.json(data)
+      }
    
   module.exports = { updateBalance,getStatementByUserId}
