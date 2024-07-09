@@ -1,5 +1,7 @@
 const NPayReserve = require("../models/npayReserve")
 const Transactions = require("../models/transactions")
+const Bills = require("../models/bills")
+
 const User = require("../models/user")
 const router = require("../routes/user")
 
@@ -44,10 +46,15 @@ const router = require("../routes/user")
       })
   }
 
+  const submitBills = async(req,res) => {
+    //save to DB 
+    console.log(req.body)
+  }
+
 // i need only those transactions done by
 const getStatementByUserId = async(req,res) => {
    const data = await Transactions.find()
    res.json(data)
 }
    
-  module.exports = { updateBalance,getStatementByUserId}
+  module.exports = { updateBalance,getStatementByUserId,submitBills}

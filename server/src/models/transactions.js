@@ -5,7 +5,7 @@ const transactionsSchema = new Schema({
   sender: Number,
   receiver: Number,
   amount: {type:Number, required:true},
-  remarks: String
+  remarks: String,
 }, 
 {
   timestamps: true

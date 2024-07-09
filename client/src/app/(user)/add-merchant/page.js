@@ -56,7 +56,7 @@ if(data){
 }
 }
   const submitMerchant = async(values) => {
-    debugger;
+
     values.merchantFields= value
 
     const requestOptions = {
