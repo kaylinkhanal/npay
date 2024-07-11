@@ -35,7 +35,7 @@ const MerchantForm = (props) => {
  
   
   return (
-    <form className='m-4 flex flex-col border shadow-md rounded-lg p-4' onSubmit={formik.handleSubmit}>
+    <form className='m-4 h-[30%] overflow-scroll flex flex-col border shadow-md rounded-lg p-4' onSubmit={formik.handleSubmit}>
       { props.merchantFields?.length> 0 && props.merchantFields?.map((item)=>{
         if(item.value?.toLowerCase().includes('month')){
           return<>
@@ -109,9 +109,8 @@ export default function BillsModal() {
                 )
                 })}
               </ModalBody>
-        
-              <MerchantForm merchantPhoneNumber={selectedCard.merchantPhoneNumber} merchantName={selectedCard.merchantName} merchantFields={selectedCard?.merchantFields}/>
-
+                {selectedCard?.merchantFields && <MerchantForm merchantPhoneNumber={selectedCard?.merchantPhoneNumber} merchantName={selectedCard?.merchantName} merchantFields={selectedCard?.merchantFields}/>}
+              
             </>
           )}
         </ModalContent>
