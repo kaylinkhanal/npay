@@ -12,11 +12,12 @@ import axios from 'axios';
 import { BsTrash2 } from 'react-icons/bs';
 import * as Yup from 'yup';
 import CreatableSelect from 'react-select/creatable';
+import { useSelector } from "react-redux";
 
 
 
 const MerchantForm = (props) => {
-
+  const {userDetails} = useSelector(state=>state.user)
   const formik = useFormik({
     initialValues: {
         merchantName:props.merchantName,
@@ -25,9 +26,11 @@ const MerchantForm = (props) => {
     onSubmit: async (values) => {
      await submitMerchant(values)
     },
+    enableReinitialize:true
   });
 
   const submitMerchant = async(values) => {
+     values.payerPhoneNumber =userDetails.phoneNumber
      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}bills`,values)
 
   }

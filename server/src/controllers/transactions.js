@@ -53,6 +53,11 @@ const router = require("../routes/user")
       const billData = req.body
       const bill = new Bills(billData)
       await bill.save();
+
+      const payerUser = await User.findOne({phoneNumber: payerPhoneNumber})
+      const merchantUser = await User.findOne({phoneNumber: merchantPhoneNumber})
+      payerUser.totalBalance = payerUser.totalBalance - req.body['Amount']
+      payerUser.save()
       return res.json({
         msg: "Bill submitted!"
       })
