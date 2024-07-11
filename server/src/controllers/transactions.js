@@ -47,8 +47,23 @@ const router = require("../routes/user")
   }
 
   const submitBills = async(req,res) => {
-    //save to DB 
-    console.log(req.body)
+    //save to 
+    //console.log(req.body)
+    try{
+      const billData = req.body
+      const bill = new Bills(billData)
+      await bill.save();
+      return res.json({
+        msg: "Bill submitted!"
+      })
+    }catch(error){
+      console.log(error)
+      return res.json({
+        msg: "Error in submitting bill",
+        error
+      })
+    }
+ 
   }
 
 // i need only those transactions done by
