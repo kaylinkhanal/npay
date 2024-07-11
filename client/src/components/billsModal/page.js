@@ -31,8 +31,8 @@ const MerchantForm = (props) => {
 
   const submitMerchant = async(values) => {
      values.payerPhoneNumber =userDetails.phoneNumber
-     await axios.post(`${process.env.NEXT_PUBLIC_API_URL}bills`,values)
-
+    const{data} =await axios.post(`${process.env.NEXT_PUBLIC_API_URL}bills`,values)
+     toast(data.msg)
   }
 
  
