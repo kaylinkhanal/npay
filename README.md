@@ -146,20 +146,11 @@ _For more examples, please refer to the [Documentation](https://example.com)_
         -  expense tracker 
     2.2 Transactions (limit) - usera-userb   usera-institution
     2.3 Statement/History (pdf generate)
-- [ ] 3. real time cash update (web socket)
-- [ ] 4. map to display transaction location (google map)
+- [x] 3. real time cash update (web socket)
+- [x] 4. L
 
 
 
-# phase-2
-- [x] 1. integrate esewa
-- [x] 2. google login
-- [x] 3. support
-- [x] 4. deployment
-- [x] 4. 
-
----- route protect------ 
---- 
 
 
 <!-- ROADMAP -->

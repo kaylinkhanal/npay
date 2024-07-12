@@ -56,21 +56,22 @@ const submitBills = async (req, res) => {
   //save to
   //console.log(req.body)
   try {
-    const billData = req.body;
-    const bill = new Bills(billData);
-    await bill.save();
-
+    //get payerUserdetails
     const payerUser = await User.findOne({
       phoneNumber: req.body.payerPhoneNumber,
     });
+      //check if the user have balance exceeding the amount he is trying to send
     if (payerUser.totalBalance < Number(req.body["Amount"]))
       return res.json({
         msg: "insufficient balance",
       });
+    // reduce the amount from his balance and save to db
     payerUser.totalBalance =
       payerUser.totalBalance - Number(req.body["Amount"]);
     await payerUser.save();
 
+
+    
     const merchantUser = await Merchant.findOne({
       merchantPhoneNumber: req.body.merchantPhoneNumber,
     });
@@ -86,6 +87,9 @@ const submitBills = async (req, res) => {
     const npayReserve = await NPayReserve.findOne();
     npayReserve.npayBalance = npayReserve.npayBalance + serviceCharge;
     await npayReserve.save();
+    const billData = req.body;
+    const bill = new Bills(billData);
+    await bill.save();
 
     return res.json({
       msg: "Bill submitted!",
