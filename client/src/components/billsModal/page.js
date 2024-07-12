@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, DatePicker} from "@nextui-org/react";
 
 import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image} from "@nextui-org/react";
 
@@ -12,102 +12,50 @@ import axios from 'axios';
 import { BsTrash2 } from 'react-icons/bs';
 import * as Yup from 'yup';
 import CreatableSelect from 'react-select/creatable';
+import { useSelector } from "react-redux";
 
 
 
-const MerchantForm = (merchantDetails) => {
-
-
-  const [inputValue, setInputValue] = useState('');
-  const [value, setValue] = useState([]);
-
-  const handleKeyDown= (event) => {
-    if (!inputValue) return;
-    switch (event.key) {
-      case 'Enter':
-      case 'Tab':
-        setValue((prev) => [...prev, createOption(inputValue)]);
-        setInputValue('');
-        event.preventDefault();
-    }
-  };
+const MerchantForm = (props) => {
+  const {userDetails} = useSelector(state=>state.user)
   const formik = useFormik({
     initialValues: {
-        merchantName:'',
-        merchantPhoneNumber: '',
-        merchantServiceCharge:''
+        merchantName:props.merchantName,
+        merchantPhoneNumber: props.merchantPhoneNumber
     },
     onSubmit: async (values) => {
      await submitMerchant(values)
     },
+    enableReinitialize:true
   });
-const deleteItem =async(id)=>{
-const {data} = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}merchant/`+id)
-if(data){
-    fetchMerchants()
-}
-}
-  const submitMerchant = async(values) => {
-    debugger;
-    values.merchantFields= value
 
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(values)
-  };
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}merchant`, requestOptions);
-  const data = await response.json()
-  if(response.status== '200'){
-    toast.success(data.msg)
-    fetchMerchants()
-    formik.resetForm()
+  const submitMerchant = async(values) => {
+     values.payerPhoneNumber =userDetails.phoneNumber
+    const{data} =await axios.post(`${process.env.NEXT_PUBLIC_API_URL}bills`,values)
+     toast(data.msg)
   }
-  else{
-    toast.error(data.msg)
-  }
-  }
-  const components = {
-    DropdownIndicator: null,
-  };
-  const createOption = (label) => ({
-    label,
-    value: label,
-  });
+
+ 
   
   return (
-    <form className='m-4 flex flex-col border shadow-md rounded-lg p-4' onSubmit={formik.handleSubmit}>
-      {JSON.stringify(merchantDetails)}
-      { merchantDetails.merchantFields?.length> 0 && merchantDetails.merchantFields?.map((item)=>{
-      if(item.type === 'multi'){
-     return   (
-     <div>
-                <label htmlFor={item.name}>{item.label}</label>
-                <CreatableSelect
-        components={components}
-        inputValue={inputValue}
-        isClearable
-        isMulti
-        menuIsOpen={false}
-        onChange={(newValue) => setValue(newValue)}
-        onInputChange={(newValue) => setInputValue(newValue)}
-        onKeyDown={handleKeyDown}
-        placeholder="Type something and press enter..."
-        value={value}
-      />
-     </div>
-    )
-      }
+    <form className='m-4 h-[30%] overflow-scroll flex flex-col border shadow-md rounded-lg p-4' onSubmit={formik.handleSubmit}>
+      { props.merchantFields?.length> 0 && props.merchantFields?.map((item)=>{
+        if(item.value?.toLowerCase().includes('month')){
+          return<>
+            <label htmlFor={item.value}>{item.label}</label>
+            <DatePicker onChange={(e)=>formik.setFieldValue(item.value, e.day.toString() +'/'+ e.month.toString() +'/'+ e.year.toString())}/>
+          </> 
+        }
       return (
         <div>
-           <label htmlFor={item.name}>{item.label}</label>
+           <label htmlFor={item.value}>{item.label}</label>
            <Input
-        id={item.name}
-        name={item.name}
+        id={item.value}
+        name={item.value}
         type="text"
         onChange={formik.handleChange}
         isRequired
-        value={formik.values[item.name]}
+        value={formik.values[item.value]}
       />
         </div>
       )
@@ -125,7 +73,7 @@ if(data){
 export default function BillsModal() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [scrollBehavior, setScrollBehavior] = useState("inside");
-  const [selectedCardId, setSelectedCardId] =useState(null)
+  const [selectedCard, setSelectedCard] =useState(null)
 
 
   const [merchantList, setMerchantList] = useState([])
@@ -151,8 +99,8 @@ export default function BillsModal() {
 
               {merchantList.length> 0 && merchantList.map((item)=>{
                 return (
-                  <Card   className="max-w-[290px]" style={{backgroundColor: item._id == selectedCardId?._id ? 'lightGreen': null }}>
-                    <CardHeader  onClick={()=> setSelectedCardId(item)} className="flex gap-3">
+                  <Card   className="max-w-[290px]" style={{backgroundColor: item._id == selectedCard?._id ? 'lightGreen': null }}>
+                    <CardHeader  onClick={()=> setSelectedCard(item)} className="flex gap-3">
                     <p> {item.merchantName}</p> 
                     </CardHeader>
                     <Divider/>
@@ -164,8 +112,8 @@ export default function BillsModal() {
                 )
                 })}
               </ModalBody>
-              <MerchantForm merchantFields={selectedCardId?.merchantFields}/>
-
+                {selectedCard?.merchantFields && <MerchantForm merchantPhoneNumber={selectedCard?.merchantPhoneNumber} merchantName={selectedCard?.merchantName} merchantFields={selectedCard?.merchantFields}/>}
+              
             </>
           )}
         </ModalContent>

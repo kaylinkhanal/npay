@@ -83,7 +83,7 @@ const page = () => {
           }
           {
             dataOfUser.userDetails.phoneNumber == item.sender 
-             ? <TableCell>{item.transactionServiceChargre}</TableCell> 
+             ? <TableCell>{item.transactionServiceCharge}</TableCell> 
                : <TableCell>-</TableCell>
           }
           {

@@ -8,7 +8,7 @@ const transactionsSchema = new Schema({
   remarks: String,
   remainingAmountSender: Number,
   remainingAmountReceiver: Number,
-  transactionServiceChargre: Number
+  transactionServiceCharge: Number
 }, 
 {
   timestamps: true
