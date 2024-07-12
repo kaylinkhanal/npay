@@ -6,6 +6,9 @@ const transactionsSchema = new Schema({
   receiver: Number,
   amount: {type:Number, required:true},
   remarks: String,
+  remainingAmountSender: Number,
+  remainingAmountReceiver: Number,
+  transactionServiceCharge: Number
 }, 
 {
   timestamps: true

@@ -31,47 +31,47 @@ const updateBalance = async (req, res) => {
         npayBalance:
           npayReserve[0].npayBalance +
           (npayReserve[0].npayServiceCharge / 100) * Number(amount),
-      }
-    );
-  } else {
-    return res.json({
-      msg: "Your transaction limit is 1000 rs only",
-    });
-  }
-  const transactionDetail = await Transactions.create({
-    sender: npayIdSender,
-    receiver: npayIdReceiver,
-    amount,
-    remarks,
-  });
+      });
+      
+      const transactionDetail = await Transactions.create({
+        sender: npayIdSender,
+        receiver: npayIdReceiver,
+        amount,
+        remarks,
+        remainingAmountSender:senderUser.totalBalance,
+        remainingAmountReceiver: receiverUser.totalBalance,
+        transactionServiceCharge: [npayReserve[0].npayServiceCharge]/100*amount
+      })
 
-  return res.json({
-    msg: "transactions success",
-    transactionId: transactionDetail._id,
-    transactionDetail,
-    senderUserTotalBalance: senderUser.totalBalance,
-  });
+      return res.json({
+        msg: "transactions success",
+        transactionId: transactionDetail._id,
+        transactionDetail,
+        senderUserTotalBalance:  senderUser.totalBalance
+      })
+  }
 };
 
 const submitBills = async (req, res) => {
   //save to
   //console.log(req.body)
   try {
-    const billData = req.body;
-    const bill = new Bills(billData);
-    await bill.save();
-
+    //get payerUserdetails
     const payerUser = await User.findOne({
       phoneNumber: req.body.payerPhoneNumber,
     });
+      //check if the user have balance exceeding the amount he is trying to send
     if (payerUser.totalBalance < Number(req.body["Amount"]))
       return res.json({
         msg: "insufficient balance",
       });
+    // reduce the amount from his balance and save to db
     payerUser.totalBalance =
       payerUser.totalBalance - Number(req.body["Amount"]);
     await payerUser.save();
 
+
+    
     const merchantUser = await Merchant.findOne({
       merchantPhoneNumber: req.body.merchantPhoneNumber,
     });
@@ -87,6 +87,9 @@ const submitBills = async (req, res) => {
     const npayReserve = await NPayReserve.findOne();
     npayReserve.npayBalance = npayReserve.npayBalance + serviceCharge;
     await npayReserve.save();
+    const billData = req.body;
+    const bill = new Bills(billData);
+    await bill.save();
 
     return res.json({
       msg: "Bill submitted!",
@@ -101,9 +104,15 @@ const submitBills = async (req, res) => {
 };
 
 // i need only those transactions done by
-const getStatementByUserId = async (req, res) => {
-  const data = await Transactions.find();
-  res.json(data);
-};
+    const getStatementByUserId = async(req,res) => {
+      const data = await Transactions.find({
+         $or: [
+                  { sender: req.params.userId },
+                   { receiver: req.params.userId }
+               ]
+      });
 
-module.exports = { updateBalance, getStatementByUserId, submitBills };
+        res.json(data)
+      }
+   
+  module.exports = { updateBalance,getStatementByUserId, submitBills}
