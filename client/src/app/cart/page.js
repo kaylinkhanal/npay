@@ -12,9 +12,9 @@ const Cart = () => {
     <div>
       YOUR wishlist ITEMS
   
-        {wishLists.length>0 ? wishLists.map((item)=>{
+        {wishLists.length>0 ? wishLists.map((item,id)=>{
           return (
-            <div className='p-2 m-2 shadow-md'>
+            <div key={id} className='p-2 m-2 shadow-md'>
               <p>{item.productName}</p>
               <p>{item.productPrice}</p>
               <BsTrash2 onClick={()=>dispatch(removeFromCart(item._id))}/>

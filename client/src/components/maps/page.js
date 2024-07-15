@@ -55,8 +55,8 @@ const Maps = () => {
     }}
     draggable={true} position={[27.5,83.45]} icon={iconPickup}>
     </Marker>
-    {hospitalList.map((item)=>{
-return( <Marker
+    {hospitalList.map((item,id)=>{
+return( <Marker key={id}
     position={item.latlng} icon={iconPickup}>
  </Marker>)
     })}
